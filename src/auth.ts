@@ -21,24 +21,38 @@ export const authOptions: NextAuthOptions = {
                         password: credentials.password,
                     });
 
-                    const user = response.data;
+                    const userData = response.data;
 
-                    if (user && user._id) {
+                    // Assuming your API returns user data with an id
+                    if (userData && userData.id) {
                         return {
-                            id: user._id,
-                            email: user.email,
-                            name: user.name,
-                            // Include any other user properties you need
-                            ...user
+                            id: userData._id.toString(), // Ensure id is string
+                            email: userData.email,
+                            name: userData.name,
+                            // Include any tokens or additional data from your API
+                            accessToken: userData.accessToken,
+                            refreshToken: userData.refreshToken,
+                            ...userData
                         };
                     }
 
+                    // Return null if user data could not be retrieved
                     return null;
                 } catch (error: any) {
-                    if (error.response?.data?.message) {
+                    console.error('Authorization error:', error);
+
+                    // Handle different error scenarios
+                    if (error.response?.status === 401) {
+                        throw new Error('Invalid email or password');
+                    } else if (error.response?.status === 404) {
+                        throw new Error('User not found');
+                    } else if (error.response?.data?.message) {
                         throw new Error(error.response.data.message);
+                    } else if (error.request) {
+                        throw new Error('Network error. Please try again.');
+                    } else {
+                        throw new Error('Login failed. Please try again.');
                     }
-                    throw new Error('Login failed. Please try again.');
                 }
             }
         }),
@@ -52,23 +66,44 @@ export const authOptions: NextAuthOptions = {
         error: '/auth/error',
     },
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-                // Add any other user properties you want to include in the token
-                token.email = user.email;
-                token.name = user.name;
+        async jwt({ token, user, account }) {
+            // Initial sign in
+            if (user && account) {
+                return {
+                    ...token,
+                    id: user.id,
+                    accessToken: user.accessToken,
+                    refreshToken: user.refreshToken,
+                    // Include any other user data you need
+                    ...user
+                };
             }
             return token;
         },
         async session({ session, token }) {
-            if (session?.user) {
+            // Send properties to the client
+            if (session.user) {
                 session.user.id = token.id as string;
-                session.user.email = token.email as string;
                 session.user.name = token.name as string;
-                // Add any other token properties you want to include in the session
+                session.user.email = token.email as string;
             }
+
+            // Add tokens to session if needed
+            session.accessToken = token.accessToken as string;
+            session.refreshToken = token.refreshToken as string;
+            session.error = token.error as string;
+
             return session;
+        },
+    },
+    events: {
+        async signOut(message) {
+            // Optional: Call your API logout endpoint when user signs out
+            try {
+                await authAxiosInstance.post('/auth/sign-out');
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
         },
     },
 };
