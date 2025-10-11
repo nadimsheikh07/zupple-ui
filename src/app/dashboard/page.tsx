@@ -1,16 +1,16 @@
 'use client';
 
-import React, { Suspense } from 'react';
 import {
-  Container,
-  Typography,
-  Button,
-  Paper,
-  Box,
   Avatar,
+  Box,
+  Button,
+  Container,
+  Paper,
+  Typography,
 } from '@mui/material';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -23,7 +23,6 @@ export default function Dashboard() {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
       <Container>
         <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
           <Box display="flex" alignItems="center" mb={3}>
@@ -58,6 +57,5 @@ export default function Dashboard() {
           </Button>
         </Paper>
       </Container>
-    </Suspense>
   );
 }

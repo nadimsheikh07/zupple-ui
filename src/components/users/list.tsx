@@ -21,7 +21,7 @@ import {
 import { DataGrid, GridColDef, GridSortModel } from "@mui/x-data-grid";
 import { useDialogs, useNotifications } from "@toolpad/core";
 import { useRouter } from "next/navigation";
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { ActionsCell } from "./actionRow";
 import { fetchUrl, updatePasswordUrl, viewUrl } from "./constant";
@@ -191,7 +191,6 @@ export default function UserList() {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
       <Card>
         <CardContent>
           <Box>
@@ -278,6 +277,5 @@ export default function UserList() {
           </Box>
         </CardContent>
       </Card>
-    </Suspense>
   );
 }
