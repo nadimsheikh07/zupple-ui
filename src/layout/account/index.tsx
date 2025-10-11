@@ -55,7 +55,6 @@ export default function AdminLayout({
             id: user.id?.toString() || null,
             name: user.name || "",
             email: user.email || "",
-            image: user.image ? `/uploads/${user.image}` : "",
           }
           : undefined,
       }}
