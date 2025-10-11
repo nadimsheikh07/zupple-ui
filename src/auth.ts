@@ -24,11 +24,11 @@ export const authOptions: NextAuthOptions = {
                     const userData = response.data;
 
                     // Assuming your API returns user data with an id
-                    if (userData && userData.id) {
+                    if (userData && userData.user) {
                         return {
-                            id: userData._id.toString(), // Ensure id is string
-                            email: userData.email,
-                            name: userData.name,
+                            id: userData.user._id.toString(), // Ensure id is string
+                            email: userData.user.email,
+                            name: userData.user.name,
                             // Include any tokens or additional data from your API
                             accessToken: userData.accessToken,
                             refreshToken: userData.refreshToken,
