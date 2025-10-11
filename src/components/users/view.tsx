@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { DialogProps } from "@toolpad/core";
 import React, { useEffect, useState } from "react";
-import { fetchUserUrl } from "./constant";
+import { fetchUrl } from "./constant";
 import axiosInstance from "@/utils/axiosInstance";
 
 interface UserViewProps extends DialogProps<undefined, string | null> {
@@ -39,7 +39,7 @@ export default function UserView({ id, open, onClose }: UserViewProps) {
   }, [id]);
 
   const bindData = async (id: unknown) => {
-    const response = await axiosInstance.get(`${fetchUserUrl}/${id}`);
+    const response = await axiosInstance.get(`${fetchUrl}/${id}`);
     setData(response.data);
   };
   const listItemStyles = {

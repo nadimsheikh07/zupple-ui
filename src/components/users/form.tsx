@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { defaultValues, fetchUserUrl } from "./constant";
+import { defaultValues, fetchUrl } from "./constant";
 import { handleErrorMessage } from "@/utils/errorHandler";
 
 // Validation schema
@@ -67,11 +67,11 @@ export default function UserForm({ id, open, onClose }: FormProps) {
 
 
   const onSubmit = async (data: any) => {
-    let url = `${fetchUserUrl}/`;
+    let url = `${fetchUrl}/`;
     let method: "post" | "put" = "post";
 
     if (id != "new") {
-      url = `${fetchUserUrl}/${id}`;
+      url = `${fetchUrl}/${id}`;
       method = "put";
     }
 
@@ -102,7 +102,7 @@ export default function UserForm({ id, open, onClose }: FormProps) {
   const bindData = useCallback(
     async (id: unknown) => {
       try {
-        const response = await axiosInstance.get(`${fetchUserUrl}/${id}`);
+        const response = await axiosInstance.get(`${fetchUrl}/${id}`);
         reset(response.data);
       } catch (error: unknown) {
         const { response } = error as unknown as {

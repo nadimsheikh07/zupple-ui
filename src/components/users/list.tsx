@@ -1,5 +1,8 @@
 "use client";
 
+import axiosInstance from "@/utils/axiosInstance";
+import { handleErrorMessage } from "@/utils/errorHandler";
+import { getFetcher } from "@/utils/fetcher";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
   Box,
@@ -20,14 +23,11 @@ import { useDialogs, useNotifications } from "@toolpad/core";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
+import { ActionsCell } from "./actionRow";
+import { fetchUrl, updatePasswordUrl, viewUrl } from "./constant";
 import UserForm from "./form";
 import UpdateProfilePassword from "./update-password";
 import UserView from "./view";
-import { fetchUserUrl, updatePasswordUrl, viewUrl } from "./constant";
-import { getFetcher } from "@/utils/fetcher";
-import axiosInstance from "@/utils/axiosInstance";
-import { handleErrorMessage } from "@/utils/errorHandler";
-import { ActionsCell } from "./actionRow";
 
 export default function UserList() {
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function UserList() {
   }, [paginationModel, sortModel, searchText]);
 
   const { data, error, isLoading } = useSWR(
-    `${fetchUserUrl}?${params}`,
+    `${fetchUrl}?${params}`,
     getFetcher
   );
 
@@ -78,8 +78,8 @@ export default function UserList() {
       if (!ok) return;
 
       try {
-        const res = await axiosInstance.delete(`${fetchUserUrl}/${id}`);
-        mutate(`${fetchUserUrl}?${params}`, { revalidate: true });
+        const res = await axiosInstance.delete(`${fetchUrl}/${id}`);
+        mutate(`${fetchUrl}?${params}`, { revalidate: true });
         notifications.show(res.data.message, {
           severity: "success",
           autoHideDuration: 3000,
@@ -101,7 +101,7 @@ export default function UserList() {
       const result = await dialogs.open((props) => (
         <UserForm {...props} id={id} />
       ));
-      if (result) mutate(`${fetchUserUrl}?${params}`, { revalidate: true });
+      if (result) mutate(`${fetchUrl}?${params}`, { revalidate: true });
     },
     [dialogs, params]
   );
@@ -111,7 +111,7 @@ export default function UserList() {
     const result = await dialogs.open((props) => (
       <UserForm {...props} id="new" />
     ));
-    if (result) mutate(`${fetchUserUrl}?${params}`, { revalidate: true });
+    if (result) mutate(`${fetchUrl}?${params}`, { revalidate: true });
   }, [dialogs, params]);
 
   const handleView = useCallback(
@@ -240,7 +240,7 @@ export default function UserList() {
                   }}
                   aria-label="edit"
                   color="secondary"
-                  onClick={() => mutate(`${fetchUserUrl}?${params.toString()}`)}
+                  onClick={() => mutate(`${fetchUrl}?${params.toString()}`)}
                 >
                   <Icon>refresh</Icon>
                 </IconButton>
