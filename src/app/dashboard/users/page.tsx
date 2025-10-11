@@ -1,6 +1,6 @@
 "use client";
 
-import UserList from "@/components/user/users/list";
+import UserList from "@/components/users/list";
 
 export default function ListPage() {
   return (
