@@ -9,9 +9,11 @@ export default function Home() {
 
           <Typography component="h1" variant="h1">Zupple</Typography>
 
-          <Typography>This is user management application</Typography>
+          <Typography mt={2}>This is user management application</Typography>
 
-          <Button variant="outlined" LinkComponent={Link} href="/dashboard">Go to the Zupple Dashboard</Button>
+          <Box mt={2}>
+            <Button variant="outlined" LinkComponent={Link} href="/dashboard">Go to the Zupple Dashboard</Button>
+          </Box>
         </Box>
       </Box>
     </Container>

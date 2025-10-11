@@ -1,5 +1,4 @@
 import axios from "axios";
-import Router from 'next/navigation';
 
 // Axios instance
 const axiosInstance = axios.create({
@@ -16,7 +15,6 @@ axiosInstance.interceptors.response.use(
   error => {
     const { response } = error;
     if (response && response.status === 403) {
-      Router.useRouter().push("/forbidden")
     }
     return Promise.reject(error);
   }

@@ -95,15 +95,5 @@ export const authOptions: NextAuthOptions = {
 
             return session;
         },
-    },
-    events: {
-        async signOut(message) {
-            // Optional: Call your API logout endpoint when user signs out
-            try {
-                await authAxiosInstance.post('/auth/sign-out');
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-        },
-    },
+    }
 };
