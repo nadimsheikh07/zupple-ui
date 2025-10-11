@@ -131,14 +131,12 @@ export default function UserView({ id, open, onClose }: UserViewProps) {
       <DialogContent>
         <Stack spacing={3} mb={4}>
           <Grid container spacing={3}>
-            <Grid size={{ xs: 12, sm: 12, md: 6 }}>
+            <Grid size={{ xs: 12, sm: 12, md: 12 }}>
               {renderSection("Contact Information", [
                 "Name",
                 "Email",
               ])}
             </Grid>
-
-
           </Grid>
         </Stack>
         <Divider sx={{ my: 3 }} />
