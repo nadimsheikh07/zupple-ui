@@ -71,7 +71,6 @@ export const authOptions: NextAuthOptions = {
             if (user && account) {
                 return {
                     ...token,
-                    id: user.id,
                     accessToken: user.accessToken,
                     refreshToken: user.refreshToken,
                     // Include any other user data you need

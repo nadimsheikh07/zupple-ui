@@ -1,7 +1,7 @@
 export interface UserModel {
     id?: string;
-    email: string;
     name?: string | null;
+    email: string | null;
     password?: string | null;
     status?: boolean;
     accessToken?: string;

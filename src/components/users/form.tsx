@@ -27,8 +27,14 @@ import { defaultValues, fetchUrl } from "./constant";
 import { handleErrorMessage } from "@/utils/errorHandler";
 import { UserModel } from "@/types/user";
 
+interface UserFormData {
+  name: string;
+  email: string;
+  password: string;
+  status: boolean;
+}
 // Validation schema
-const validationSchema = yup.object().shape({
+const validationSchema = yup.object({
   name: yup.string().required("Name is required"),
   email: yup
     .string()
@@ -46,7 +52,6 @@ const validationSchema = yup.object().shape({
     ),
   status: yup.boolean().required("Status is required"),
 });
-
 interface FormProps extends DialogProps<undefined, string | null> {
   id: unknown;
 }
@@ -61,7 +66,7 @@ export default function UserForm({ id, open, onClose }: FormProps) {
     watch,
     register,
     formState: { errors },
-  } = useForm<UserModel>({
+  } = useForm<UserFormData>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
