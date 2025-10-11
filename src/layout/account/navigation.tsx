@@ -23,7 +23,7 @@ const accountNavigation: Navigation = [
     children: [
       {
         title: "Users",
-        segment: "dashboard/user/users",
+        segment: "dashboard/users",
         icon: <>{DotIcon}</>,
       },
     ],
