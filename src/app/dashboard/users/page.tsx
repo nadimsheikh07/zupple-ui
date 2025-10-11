@@ -1,6 +1,11 @@
 "use client";
 
-import UserList from "@/components/users/list";
+import dynamic from 'next/dynamic'
+
+const UserList = dynamic(
+  () => import('@/components/users/list'),
+  { ssr: false }
+)
 
 export default function ListPage() {
   return (
