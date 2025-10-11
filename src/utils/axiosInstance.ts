@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios instance
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   // Axios configuration options here
 });
 

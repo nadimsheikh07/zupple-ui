@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios instance
 const authAxiosInstance = axios.create({
-  baseURL: process.env.NEXT_AUTH_URL,
+  baseURL: process.env.NEXT_PUBLIC_AUTH_URL,
   // Axios configuration options here
 });
 
