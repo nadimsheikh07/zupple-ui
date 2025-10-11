@@ -21,7 +21,7 @@ import {
 import { DataGrid, GridColDef, GridSortModel } from "@mui/x-data-grid";
 import { useDialogs, useNotifications } from "@toolpad/core";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { ActionsCell } from "./actionRow";
 import { fetchUrl, updatePasswordUrl, viewUrl } from "./constant";
@@ -191,91 +191,93 @@ export default function UserList() {
   }
 
   return (
-    <Card>
-      <CardContent>
-        <Box>
-          <Grid container spacing={2} alignItems="center" sx={{ mb: 2 }}>
-            <Grid
-              size={{
-                xs: 12,
-                md: 6,
-                sm: 6
-              }}
-            >
-              <TextField
-                placeholder="Search"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <Icon>search</Icon>
-                    </InputAdornment>
-                  ),
+    <Suspense fallback={<div>Loading...</div>}>
+      <Card>
+        <CardContent>
+          <Box>
+            <Grid container spacing={2} alignItems="center" sx={{ mb: 2 }}>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6,
+                  sm: 6
                 }}
-                sx={{
-                  width: { xs: "100%", sm: "auto" },
-                }}
-              />
-            </Grid>
-            <Grid
-              size={{
-                xs: 12,
-                md: 6,
-                sm: 6
-              }}
-            >
-              <Stack
-                direction="row"
-                spacing={1}
-                justifyContent="flex-end"
-                width="100%"
               >
-                <IconButton
-                  sx={{
-                    backgroundColor: theme.palette.action.hover,
-                    "&:hover": {
-                      backgroundColor: theme.palette.action.selected,
-                    },
+                <TextField
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Icon>search</Icon>
+                      </InputAdornment>
+                    ),
                   }}
-                  aria-label="edit"
-                  color="secondary"
-                  onClick={() => mutate(`${fetchUrl}?${params.toString()}`)}
-                >
-                  <Icon>refresh</Icon>
-                </IconButton>
-                <Button
-                  variant="contained"
-                  color="primary"
                   sx={{
-                    textTransform: "none",
                     width: { xs: "100%", sm: "auto" },
                   }}
-                  onClick={() => handleAdd()}
-                  endIcon={<ChevronRightIcon fontSize="small" />}
+                />
+              </Grid>
+              <Grid
+                size={{
+                  xs: 12,
+                  md: 6,
+                  sm: 6
+                }}
+              >
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  justifyContent="flex-end"
+                  width="100%"
                 >
-                  New User
-                </Button>
-              </Stack>
+                  <IconButton
+                    sx={{
+                      backgroundColor: theme.palette.action.hover,
+                      "&:hover": {
+                        backgroundColor: theme.palette.action.selected,
+                      },
+                    }}
+                    aria-label="edit"
+                    color="secondary"
+                    onClick={() => mutate(`${fetchUrl}?${params.toString()}`)}
+                  >
+                    <Icon>refresh</Icon>
+                  </IconButton>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      textTransform: "none",
+                      width: { xs: "100%", sm: "auto" },
+                    }}
+                    onClick={() => handleAdd()}
+                    endIcon={<ChevronRightIcon fontSize="small" />}
+                  >
+                    New User
+                  </Button>
+                </Stack>
+              </Grid>
             </Grid>
-          </Grid>
-          <Card>
-            <Box height={500}>
-              <DataGrid
-                rows={data?.data || []}
-                columns={columns}
-                rowCount={data?.total || 0}
-                paginationMode="server"
-                sortingMode="server"
-                paginationModel={paginationModel}
-                onPaginationModelChange={setPaginationModel}
-                onSortModelChange={setSortModel}
-                getRowId={(row) => row._id}
-              />
-            </Box>
-          </Card>
-        </Box>
-      </CardContent>
-    </Card>
+            <Card>
+              <Box height={500}>
+                <DataGrid
+                  rows={data?.data || []}
+                  columns={columns}
+                  rowCount={data?.total || 0}
+                  paginationMode="server"
+                  sortingMode="server"
+                  paginationModel={paginationModel}
+                  onPaginationModelChange={setPaginationModel}
+                  onSortModelChange={setSortModel}
+                  getRowId={(row) => row._id}
+                />
+              </Box>
+            </Card>
+          </Box>
+        </CardContent>
+      </Card>
+    </Suspense>
   );
 }
