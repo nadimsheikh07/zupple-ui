@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { defaultValues, fetchUrl } from "./constant";
 import { handleErrorMessage } from "@/utils/errorHandler";
+import { UserModel } from "@/types/user";
 
 // Validation schema
 const validationSchema = yup.object().shape({
@@ -60,7 +61,7 @@ export default function UserForm({ id, open, onClose }: FormProps) {
     watch,
     register,
     formState: { errors },
-  } = useForm<any>({
+  } = useForm<UserModel>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
   });
@@ -155,7 +156,7 @@ export default function UserForm({ id, open, onClose }: FormProps) {
                   },
                 }}
                 error={!!errors.name}
-                helperText={errors.name?.message}
+                helperText={String(errors.name?.message)}
                 {...register("name")}
               />
             </Grid>
@@ -171,7 +172,7 @@ export default function UserForm({ id, open, onClose }: FormProps) {
                   },
                 }}
                 error={!!errors.email}
-                helperText={errors.email?.message}
+                helperText={String(errors.email?.message)}
                 {...register("email")}
               />
             </Grid>

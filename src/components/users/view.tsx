@@ -9,7 +9,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Divider,
   Grid,
   Icon,
   IconButton,
@@ -22,13 +21,14 @@ import { DialogProps } from "@toolpad/core";
 import React, { useEffect, useState } from "react";
 import { fetchUrl } from "./constant";
 import axiosInstance from "@/utils/axiosInstance";
+import { UserModel } from "@/types/user";
 
 interface UserViewProps extends DialogProps<undefined, string | null> {
   id: unknown;
 }
 
 export default function UserView({ id, open, onClose }: UserViewProps) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<UserModel>();
 
   useEffect(() => {
     if (id) {
@@ -139,16 +139,6 @@ export default function UserView({ id, open, onClose }: UserViewProps) {
             </Grid>
           </Grid>
         </Stack>
-        <Divider sx={{ my: 3 }} />
-
-        <Box textAlign="right">
-          <Typography variant="caption" color="text.secondary">
-            Last updated:{" "}
-            {data?.user?.updated_at
-              ? new Date(data?.user?.updated_at).toLocaleString()
-              : "—"}
-          </Typography>
-        </Box>
       </DialogContent>
     </Dialog>
   );

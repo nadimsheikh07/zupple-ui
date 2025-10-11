@@ -1,3 +1,5 @@
+import axiosInstance from "@/utils/axiosInstance";
+import { handleErrorMessage } from "@/utils/errorHandler";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -19,8 +21,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { defaultValues, updatePasswordUrl } from "./constant";
-import axiosInstance from "@/utils/axiosInstance";
-import { handleErrorMessage } from "@/utils/errorHandler";
 
 interface ProfileFormProps extends DialogProps<undefined, string | null> {
   id?: unknown;
@@ -72,7 +72,7 @@ export default function UpdateProfilePassword({
     }
   }, [id, reset]);
 
-  const onSubmit = async (data:any) => {
+  const onSubmit = async (data: any) => {
     try {
       const response = await axiosInstance.put(updatePasswordUrl, data);
 
@@ -123,11 +123,13 @@ export default function UpdateProfilePassword({
                   error={!!errors.password}
                   InputLabelProps={{ shrink: true }}
                   helperText={
-                    errors.password?.type === "required"
-                      ? errors.password.message
-                      : errors.password?.type === "matches"
-                        ? "Password must contain at least 8 characters, including uppercase, lowercase, number, and special character."
-                        : ""
+                    String(
+                      errors.password?.type === "required"
+                        ? errors.password.message
+                        : errors.password?.type === "matches"
+                          ? "Password must contain at least 8 characters, including uppercase, lowercase, number, and special character."
+                          : ""
+                    )
                   }
                   InputProps={{
                     endAdornment: (
@@ -151,7 +153,7 @@ export default function UpdateProfilePassword({
                   type={showNewPassword ? "text" : "password"}
                   {...register("new_password")}
                   error={!!errors.new_password}
-                  helperText={errors.new_password?.message}
+                  helperText={String(errors.new_password?.message)}
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
@@ -175,7 +177,7 @@ export default function UpdateProfilePassword({
                   type={showConfirmPassword ? "text" : "password"}
                   {...register("confirm_password")}
                   error={!!errors.confirm_password}
-                  helperText={errors.confirm_password?.message}
+                  helperText={String(errors.confirm_password?.message)}
                   InputLabelProps={{ shrink: true }}
                   InputProps={{
                     endAdornment: (
