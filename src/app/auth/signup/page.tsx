@@ -14,7 +14,6 @@ import {
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import NextLink from 'next/link';
-import axios from 'axios';
 import authAxiosInstance from '@/utils/authAxiosInstance';
 
 export default function SignUp() {
@@ -53,7 +52,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await authAxiosInstance.post('/api/auth/signup', {
+      const response = await authAxiosInstance.post('/auth/sign-up', {
         name: formData.name,
         email: formData.email,
         password: formData.password,
