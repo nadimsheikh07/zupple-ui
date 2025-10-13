@@ -14,6 +14,8 @@ import {
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import NextLink from 'next/link';
+import axios from 'axios';
+import authAxiosInstance from '@/utils/authAxiosInstance';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -51,35 +53,27 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
-      }
-
-      const result = await signIn('credentials', {
+      const response = await authAxiosInstance.post('/api/auth/signup', {
+        name: formData.name,
         email: formData.email,
         password: formData.password,
-        redirect: false,
-      });
+      })
 
-      if (result?.error) {
-        setError(result.error);
+      if (response.status == 200) {
+        const result = await signIn('credentials', {
+          email: formData.email,
+          password: formData.password,
+          redirect: false,
+        });
+
+        if (result?.error) {
+          setError(result.error);
+        } else {
+          router.push('/dashboard');
+          router.refresh();
+        }
       } else {
-        router.push('/dashboard');
-        router.refresh();
+        setError(response.data.message)
       }
     } catch (err: unknown) {
       if (
