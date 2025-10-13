@@ -58,7 +58,7 @@ export default function SignUp() {
         password: formData.password,
       })
 
-      if (response.status == 200) {
+      if (response.status == 201) {
         const result = await signIn('credentials', {
           email: formData.email,
           password: formData.password,
