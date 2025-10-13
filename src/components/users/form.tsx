@@ -1,5 +1,3 @@
-"use client";
-
 import PasswordInput from "@/components/form/password";
 import axiosInstance from "@/utils/axiosInstance";
 import { yupResolver } from "@hookform/resolvers/yup";

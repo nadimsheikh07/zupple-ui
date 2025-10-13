@@ -1,5 +1,3 @@
-"use client";
-
 import axiosInstance from "@/utils/axiosInstance";
 import { handleErrorMessage } from "@/utils/errorHandler";
 import { getFetcher } from "@/utils/fetcher";
