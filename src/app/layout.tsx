@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { SessionProvider } from "next-auth/react";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,11 +39,20 @@ export default function RootLayout({
 
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AppRouterCacheProvider>
-          <SessionProvider baseUrl="/ddasd">
-            {children}
-          </SessionProvider>
-        </AppRouterCacheProvider>
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center min-h-screen">
+              <div>Loading...</div>
+            </div>
+          }
+        >
+
+          <AppRouterCacheProvider>
+            <SessionProvider baseUrl="/ddasd">
+              {children}
+            </SessionProvider>
+          </AppRouterCacheProvider>
+        </Suspense>
       </body>
     </html>
   );
